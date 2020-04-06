@@ -5,10 +5,14 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\File;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use Notifiable;
+    use Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -36,4 +40,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('media')
+            ->acceptsFile(function (File $file) {
+                return $file->mimeType === 'image/jpeg';
+            })
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('card')
+                    ->width(368)
+                    ->height(232);
+            });
+    }
 }
