@@ -1,10 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "transitlounge/hartvoordestad",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "hartvoordestad",
     "keywords": [
-        "framework",
-        "laravel"
+        "hart",
+        "stad"
     ],
     "license": "MIT",
     "require": {
